@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DBModule } from './database/db.module';
 import { UserEntity } from './domain/user/user.entity';
 import { AuthModule } from './domain/auth/auth.module';
+import { RedisModule } from './redis/redis.module';
 
 
 @Module({
@@ -16,7 +17,8 @@ import { AuthModule } from './domain/auth/auth.module';
     ConfigModule.forRoot({}),
     DBModule.forRoot({
       entities:[UserEntity]
-    })
+    }),
+    RedisModule
   ],
   controllers: [AppController],
   providers: [AppService],
