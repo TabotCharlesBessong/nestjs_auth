@@ -84,11 +84,11 @@ export class AuthService {
     };
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(data, {
-        secret: this.configService.get('access_token_secret'),
+        secret: this.configService.get('jwt.access_token_secret'),
         expiresIn: '1d',
       }),
       this.jwtService.signAsync(data, {
-        secret: this.configService.get('refresh_token_secret'),
+        secret: this.configService.get('jwt.refresh_token_secret'),
         expiresIn: '1d',
       }),
     ]);
@@ -114,11 +114,11 @@ export class AuthService {
     console.log(data);
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(data, {
-        secret: this.configService.get('access_token_secret'),
+        secret: this.configService.get('jwt.access_token_secret'),
         expiresIn: '1d',
       }),
       this.jwtService.signAsync(data, {
-        secret: this.configService.get('refresh_token_secret'),
+        secret: this.configService.get('jwt.refresh_token_secret'),
         expiresIn: '1d',
       }),
     ]);

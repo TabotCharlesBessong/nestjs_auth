@@ -25,7 +25,7 @@ export class AccessTokenJwtStrategy extends PassportStrategy(Strategy) {
           return data;
         },
       ]),
-      secretOrKey: configService.get('access_token_secret'),
+      secretOrKey: configService.get('jwt.access_token_secret'),
     });
   }
   async validate(payload: JwtPayload) {
