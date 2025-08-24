@@ -5,6 +5,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { AuthService } from '../auth.service';
 import { ConfigService } from '@nestjs/config';
+import { envConfig } from 'src/config/env.config';
 
 // Bearer <>//
 
@@ -27,7 +28,7 @@ export class RefreshTokenJwtStrategy extends PassportStrategy(
           return data;
         },
       ]),
-      secretOrKey: configService.get('jwt.refresh_token_secret'),
+      secretOrKey: configService.get('refresh_token_secret') || envConfig.refresh_token_secret,
       passReqToCallback: true,
     });
   }

@@ -5,6 +5,7 @@ import { JwtPayload } from 'jsonwebtoken';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { AuthService } from '../auth.service';
 import { ConfigService } from '@nestjs/config';
+import { envConfig } from 'src/config/env.config';
 
 // Bearer <>//
 
@@ -25,7 +26,7 @@ export class AccessTokenJwtStrategy extends PassportStrategy(Strategy) {
           return data;
         },
       ]),
-      secretOrKey: configService.get('jwt.access_token_secret'),
+      secretOrKey: configService.get('access_token_secret') || envConfig.access_token_secret,
     });
   }
   async validate(payload: JwtPayload) {

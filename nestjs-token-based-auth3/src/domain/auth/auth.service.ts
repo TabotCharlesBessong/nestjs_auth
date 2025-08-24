@@ -15,6 +15,7 @@ import { UserEntity } from '../user/entity/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { UserSignupDto } from '../user/dto/user-request.dto';
 import { ConfigService } from '@nestjs/config';
+import { envConfig } from '../../config/env.config';
 
 @Injectable()
 export class AuthService {
@@ -84,11 +85,11 @@ export class AuthService {
     };
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(data, {
-        secret: this.configService.get('access_token_secret'),
+        secret: this.configService.get('access_token_secret') || envConfig.access_token_secret,
         expiresIn: '1d',
       }),
       this.jwtService.signAsync(data, {
-        secret: this.configService.get('refresh_token_secret'),
+        secret: this.configService.get('refresh_token_secret') || envConfig.refresh_token_secret,
         expiresIn: '7d',
       }),
     ]);
@@ -114,11 +115,11 @@ export class AuthService {
     console.log(data);
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(data, {
-        secret: this.configService.get('access_token_secret'),
+        secret: this.configService.get('access_token_secret') || envConfig.access_token_secret,
         expiresIn: '1d',
       }),
       this.jwtService.signAsync(data, {
-        secret: this.configService.get('refresh_token_secret'),
+        secret: this.configService.get('refresh_token_secret') || envConfig.refresh_token_secret,
         expiresIn: '1d',
       }),
     ]);

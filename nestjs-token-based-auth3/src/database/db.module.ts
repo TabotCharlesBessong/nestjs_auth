@@ -3,6 +3,7 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DbConfig } from './db.interface';
+import { envConfig } from '../config/env.config';
 
 @Module({})
 export class DBModule {
@@ -10,7 +11,7 @@ export class DBModule {
     config: ConfigService,
     dbconfig: DbConfig,
   ): TypeOrmModuleOptions {
-    const databaseUrl = config.get('DATABASE_URL');
+    const databaseUrl = config.get('DATABASE_URL') || envConfig.DATABASE_URL;
     return {
       type: 'postgres',
       // postgres://api:development_pass@localhost:5433/api-database

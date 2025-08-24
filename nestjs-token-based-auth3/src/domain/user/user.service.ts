@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, forwardRef, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -19,6 +19,7 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class UserService {
   constructor(
+    @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
     @InjectRepository(UserEntity) private userRepo: Repository<UserEntity>,
     private configService: ConfigService,
@@ -48,12 +49,12 @@ export class UserService {
       // const shouldWeAllow =
       // check with auth service if we can update password
       // validate if user exists with this email and password
-      const shouldAllowUpdate = this.authService.validateUserByPassword({
+      const shouldAllowUpdate = await this.authService.validateUserByPassword({
         email,
         password: fields.password_update.old_password,
       });
       if (shouldAllowUpdate) {
-        fieldToUpdate.password = fieldToUpdate.password_update.new_password;
+        fieldToUpdate.password = fields.password_update.new_password;
       }
     }
     for (const key in fieldsToUpdateDto) {
